@@ -7,7 +7,7 @@
   </p>
 
   <p>
-    <%= image_tag @post.image, height:"300px", width: "300px" %>
+      <%= image_tag @post.image, height: "300px", width: "300px" %>
   </p>
 
   <p class = "lead" >
@@ -19,9 +19,11 @@
   <p class = "lead"><strong>Multiple Files:</strong></p>
     <% @post.uploads.each do |upload| %>
       <% if upload.variable? %>
-        <%= image_tag upload, height:"300px", width: "300px"%>
+        <%= image_tag upload, height: "300px", width: "300px" %>
       <% elsif upload.previewable? %>
-        <%= image_tag upload.preview(resize: "100x100"), rails_blob_path(upload, disposition: :attachment) %>
+        <%= image_tag (upload.preview(resize: "400x400")), rails_blob_path(upload, disposition: :attachment) %>
+      <% elsif upload.video? %>
+        <%= video_tag url_for(upload), height: "300px", width: "300px", controls: true %>
       <% else %>
         <%= link_to upload.filename, rails_blob_path(upload, disposition: :attachment) %>
       <% end %>
