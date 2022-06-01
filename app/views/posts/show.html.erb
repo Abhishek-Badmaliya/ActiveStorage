@@ -1,0 +1,36 @@
+<div class = "container-fluid" >
+  <h2 class = "text-center mt-4" >Post Details</h2><hr>
+  
+  <p class = "lead" >
+    <label><strong>Post Title : </strong></label>
+    <%= @post.post_title %>
+  </p>
+
+  <p>
+      <%= image_tag @post.image, height: "300px", width: "300px" %>
+  </p>
+
+  <p class = "lead" >
+    <label><strong>Post Body : </strong></label>
+    <%= @post.post_body %>
+  </p>
+
+  <% if @post.uploads.any? %>
+  <p class = "lead"><strong>Multiple Files:</strong></p>
+    <% @post.uploads.each do |upload| %>
+      <% if upload.variable? %>
+        <%= image_tag upload, height: "300px", width: "300px" %>
+      <% elsif upload.previewable? %>
+        <%= image_tag (upload.preview(resize: "400x400")), rails_blob_path(upload, disposition: :attachment) %>
+      <% elsif upload.video? %>
+        <%= video_tag url_for(upload), height: "300px", width: "300px", controls: true %>
+      <% else %>
+        <%= link_to upload.filename, rails_blob_path(upload, disposition: :attachment) %>
+      <% end %>
+    <% end %>
+  <% end %><br>
+
+  <div class = "text-center"><br>
+    <%= link_to 'Back', { controller: 'posts', action: 'index'}, class: "btn btn-primary" %>
+  </div>
+</div>
